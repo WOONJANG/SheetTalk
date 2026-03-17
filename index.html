@@ -4,157 +4,206 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>SheetTalk</title>
-  <meta name="theme-color" content="#0b1020" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar card">
-      <div class="brand-area">
-        <div class="brand-badge">GOOGLE SHEETS × APPS SCRIPT</div>
+  <div class="ambient ambient-1"></div>
+  <div class="ambient ambient-2"></div>
+
+  <main class="screen auth-screen" id="authScreen">
+    <section class="auth-shell card">
+      <div class="auth-hero">
+        <div class="brand-badge">GOOGLE SHEETS × APPS SCRIPT × GITHUB PAGES</div>
         <h1>SheetTalk</h1>
-        <p>1:1, 단체 채팅방을 시트에 저장하고 GitHub Pages에서 보여주는 초경량 채팅 UI.</p>
+        <p>
+          회원가입 후 로그인해서 1:1 채팅과 단체 채팅을 사용합니다.
+          읽음 표시까지 들어간, 꽤 그럴듯한 시트 기반 메신저입니다.
+        </p>
+        <div class="auth-points">
+          <div class="point-chip">모바일 최적화</div>
+          <div class="point-chip">친구 추가</div>
+          <div class="point-chip">1:1 / 단체방</div>
+          <div class="point-chip">읽음 표시</div>
+        </div>
       </div>
 
-      <section class="panel">
-        <div class="panel-head">
-          <h2>보내는 사람</h2>
-          <button class="ghost-btn small" id="createUserBtn">사용자 추가</button>
+      <div class="auth-card">
+        <div class="tab-row">
+          <button class="tab-btn active" id="loginTabBtn" type="button">로그인</button>
+          <button class="tab-btn" id="signupTabBtn" type="button">회원가입</button>
         </div>
-        <label class="field">
-          <span>현재 사용자</span>
-          <select id="senderSelect"></select>
-        </label>
-      </section>
 
-      <section class="panel">
-        <div class="panel-head">
-          <h2>친구</h2>
-          <button class="ghost-btn small" id="addFriendBtn">친구 추가</button>
-        </div>
-        <div class="friend-list" id="friendList"></div>
-      </section>
+        <form class="auth-form" id="loginForm">
+          <label class="field">
+            <span>아이디</span>
+            <input id="loginIdInput" autocomplete="username" placeholder="아이디 입력" required />
+          </label>
+          <label class="field">
+            <span>비밀번호</span>
+            <input id="loginPasswordInput" type="password" autocomplete="current-password" placeholder="비밀번호 입력" required />
+          </label>
+          <button class="primary-btn auth-submit" type="submit">로그인</button>
+        </form>
 
-      <section class="panel grow">
-        <div class="panel-head">
-          <h2>채팅방</h2>
-          <button class="primary-btn small" id="newRoomBtn">새 방</button>
-        </div>
-        <div class="room-list" id="roomList"></div>
-      </section>
-    </aside>
+        <form class="auth-form hidden" id="signupForm">
+          <label class="field">
+            <span>아이디</span>
+            <input id="signupIdInput" autocomplete="username" placeholder="영문 소문자/숫자 4~20자" required />
+          </label>
+          <label class="field">
+            <span>비밀번호</span>
+            <input id="signupPasswordInput" type="password" autocomplete="new-password" placeholder="비밀번호 입력" required />
+          </label>
+          <label class="field">
+            <span>이름</span>
+            <input id="signupNameInput" autocomplete="name" placeholder="이름 입력" required />
+          </label>
+          <label class="field">
+            <span>핸드폰번호</span>
+            <input id="signupPhoneInput" inputmode="numeric" autocomplete="tel" placeholder="01012345678" required />
+          </label>
+          <button class="primary-btn auth-submit" type="submit">회원가입 후 시작</button>
+        </form>
 
-    <main class="chat-area card">
-      <header class="chat-header">
-        <div>
-          <div class="eyebrow" id="roomTypeBadge">채팅방</div>
-          <h2 id="roomTitle">방을 선택하세요</h2>
-          <p id="roomMeta">친구를 추가하고 방을 만들면 여기서 대화가 보입니다.</p>
-        </div>
-        <div class="header-actions">
-          <button class="ghost-btn" id="inviteBtn">초대</button>
-          <button class="ghost-btn" id="refreshBtn">새로고침</button>
-        </div>
-      </header>
-
-      <section class="message-wrap" id="messageWrap">
-        <div class="empty-state" id="emptyState">
-          <div class="empty-icon">💬</div>
-          <strong>채팅을 시작해보세요</strong>
-          <p>Apps Script가 백엔드 역할을 하고, GitHub Pages는 화면만 멋있게 뿌려줍니다. 정적 사이트에 생명력을 억지로 불어넣는 인간의 집념, 참 대단합니다.</p>
-        </div>
-        <div class="message-list" id="messageList"></div>
-      </section>
-
-      <footer class="composer">
-        <textarea id="messageInput" rows="1" placeholder="메시지를 입력하세요"></textarea>
-        <button class="send-btn" id="sendBtn">전송</button>
-      </footer>
-    </main>
-
-    <aside class="member-area card">
-      <div class="panel-head sticky">
-        <h2>참여 멤버</h2>
-        <span class="member-count" id="memberCount">0명</span>
+        <p class="auth-help" id="authHelpText">로그인 후 바로 친구를 추가하고 채팅방을 만들 수 있습니다.</p>
       </div>
-      <div class="member-list" id="memberList"></div>
+    </section>
+  </main>
 
-      <div class="tips-box">
-        <strong>운영 팁</strong>
-        <ul>
-          <li>방 수와 메시지가 아주 많아지면 시트가 느려집니다.</li>
-          <li>민감한 대화용으로는 부적합합니다. 인증이 없으면 누구든 보내는 사람 흉내를 낼 수 있으니까요.</li>
-          <li>실시간처럼 보이게 하려면 주기적 새로고침으로 폴링합니다.</li>
-        </ul>
-      </div>
-    </aside>
-  </div>
+  <main class="screen app-screen hidden" id="appScreen">
+    <div class="app-shell">
+      <aside class="sidebar card">
+        <section class="profile-card">
+          <div class="profile-top">
+            <div class="avatar xl" id="profileAvatar">?</div>
+            <div>
+              <div class="eyebrow">현재 로그인</div>
+              <strong id="profileName">-</strong>
+              <div class="profile-meta" id="profileMeta">-</div>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="ghost-btn small" id="refreshBtn" type="button">새로고침</button>
+            <button class="ghost-btn small danger" id="logoutBtn" type="button">로그아웃</button>
+          </div>
+        </section>
+
+        <section class="panel grow">
+          <div class="panel-head sticky">
+            <h2>친구</h2>
+            <button class="primary-btn small" id="addFriendBtn" type="button">친구추가</button>
+          </div>
+          <div class="friend-list" id="friendList"></div>
+        </section>
+      </aside>
+
+      <section class="chat-area card">
+        <header class="chat-header">
+          <div>
+            <div class="eyebrow" id="roomTypeBadge">ROOM</div>
+            <h2 id="roomTitle">채팅방을 선택해 주세요.</h2>
+            <p id="roomMeta">친구를 추가한 뒤 1:1 또는 단체방을 만들 수 있습니다.</p>
+          </div>
+          <div class="header-actions">
+            <button class="ghost-btn small" id="newRoomBtn" type="button">새 채팅방</button>
+            <button class="ghost-btn small" id="inviteBtn" type="button">초대</button>
+          </div>
+        </header>
+
+        <div class="chat-board">
+          <div class="room-column">
+            <div class="room-column-head">내 채팅방</div>
+            <div class="room-list" id="roomList"></div>
+          </div>
+
+          <div class="message-column">
+            <div class="message-wrap" id="messageWrap">
+              <div class="empty-state" id="emptyState">
+                <div>
+                  <div class="empty-icon">💬</div>
+                  <strong>아직 선택된 채팅방이 없습니다</strong>
+                  <p>친구를 추가하고 채팅방을 만들어 보세요.</p>
+                </div>
+              </div>
+              <div class="message-list hidden" id="messageList"></div>
+            </div>
+
+            <div class="composer">
+              <textarea id="messageInput" placeholder="메시지를 입력하세요" rows="1"></textarea>
+              <button class="send-btn" id="sendBtn" type="button">전송</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="member-area card">
+        <div class="panel-head">
+          <h2>참여 멤버</h2>
+          <span class="member-count" id="memberCount">0명</span>
+        </div>
+        <div class="member-list" id="memberList"></div>
+        <div class="tips-box">
+          <strong>안내</strong>
+          <ul>
+            <li>1명만 선택하면 1:1 채팅방으로 생성됩니다.</li>
+            <li>2명 이상 선택하면 단체 채팅방으로 생성됩니다.</li>
+            <li>내 메시지에는 읽음 표시가 붙습니다.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </main>
 
   <div class="modal-backdrop hidden" id="modalBackdrop"></div>
-
-  <section class="modal hidden" id="createUserModal">
-    <div class="modal-head">
-      <h3>사용자 추가</h3>
-      <button class="icon-btn" data-close="createUserModal">✕</button>
-    </div>
-    <label class="field">
-      <span>이름</span>
-      <input type="text" id="newUserName" placeholder="예: WOONIVERSE" />
-    </label>
-    <div class="modal-actions">
-      <button class="ghost-btn" data-close="createUserModal">닫기</button>
-      <button class="primary-btn" id="saveUserBtn">추가</button>
-    </div>
-  </section>
 
   <section class="modal hidden" id="friendModal">
     <div class="modal-head">
       <h3>친구 추가</h3>
-      <button class="icon-btn" data-close="friendModal">✕</button>
+      <button class="icon-btn" data-close="friendModal" type="button">✕</button>
     </div>
-    <label class="field">
-      <span>기존 사용자 선택</span>
-      <select id="existingUserSelect"></select>
-    </label>
-    <div class="divider">또는</div>
-    <label class="field">
-      <span>새 친구 이름 만들기</span>
-      <input type="text" id="newFriendName" placeholder="예: 민수" />
-    </label>
+    <div class="inline-search">
+      <label class="field grow">
+        <span>아이디 검색</span>
+        <input id="friendSearchInput" placeholder="친구 아이디 입력" autocomplete="off" />
+      </label>
+      <button class="primary-btn search-action" id="friendSearchBtn" type="button">검색</button>
+    </div>
+    <p class="search-hint" id="friendSearchHint">추가할 친구의 아이디를 입력한 뒤 검색해 주세요.</p>
+    <div class="user-pick-list" id="friendCandidateList"></div>
     <div class="modal-actions">
-      <button class="ghost-btn" data-close="friendModal">닫기</button>
-      <button class="primary-btn" id="saveFriendBtn">추가</button>
+      <button class="ghost-btn" data-close="friendModal" type="button">닫기</button>
+      <button class="primary-btn" id="saveFriendBtn" type="button">친구 추가</button>
     </div>
   </section>
 
   <section class="modal hidden" id="roomModal">
     <div class="modal-head">
-      <h3>새 채팅방 만들기</h3>
-      <button class="icon-btn" data-close="roomModal">✕</button>
+      <h3>채팅방 만들기</h3>
+      <button class="icon-btn" data-close="roomModal" type="button">✕</button>
     </div>
     <label class="field">
-      <span>방 이름 (1:1은 비워도 됨)</span>
-      <input type="text" id="roomNameInput" placeholder="예: 디자인 회의방" />
+      <span>방 이름 (선택)</span>
+      <input id="roomNameInput" placeholder="비워두면 자동 이름 또는 1:1 방으로 생성" />
     </label>
     <div class="check-list" id="roomFriendChecklist"></div>
     <div class="modal-actions">
-      <button class="ghost-btn" data-close="roomModal">닫기</button>
-      <button class="primary-btn" id="saveRoomBtn">생성</button>
+      <button class="ghost-btn" data-close="roomModal" type="button">닫기</button>
+      <button class="primary-btn" id="saveRoomBtn" type="button">생성</button>
     </div>
   </section>
 
   <section class="modal hidden" id="inviteModal">
     <div class="modal-head">
-      <h3>채팅방 초대</h3>
-      <button class="icon-btn" data-close="inviteModal">✕</button>
+      <h3>멤버 초대</h3>
+      <button class="icon-btn" data-close="inviteModal" type="button">✕</button>
     </div>
     <div class="check-list" id="inviteChecklist"></div>
     <div class="modal-actions">
-      <button class="ghost-btn" data-close="inviteModal">닫기</button>
-      <button class="primary-btn" id="saveInviteBtn">초대</button>
+      <button class="ghost-btn" data-close="inviteModal" type="button">닫기</button>
+      <button class="primary-btn" id="saveInviteBtn" type="button">초대</button>
     </div>
   </section>
 
